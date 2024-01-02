@@ -1,22 +1,24 @@
-What is Spring Framework :
----------------------------------------------------------------------------------------------------------------------------------------------------------- 
+## What is Spring Framework :
+
 --> Spring is a dependency injection framework to make java application loosely coupled.
+
 --> Spring framework makes the easy development of JavaEE application.
+
 --> It was developed by Rod Johnson in 2003.
 
 
-Dependency Injection :
-----------------------------------------------------------------------------------------------------------------------------------------------------------
+## Dependency Injection :
+
 --> It is design pattern.
 
-class Ramu					 |--------->class Geeta
-{							 |			{
-	Geeta ob;----------------|				public void doWork()
-	public void doWork() 					{
-	{
-	
-	}										}
-}										}
+	class Ramu					 class Geeta
+	{						{
+		Geeta ob;					public void doWork()
+		public void doWork() 				{
+		{
+
+		}						}
+	}						}
 
 - Ramu class need Geeta class object to do work. Initially for do such a task we create objects using new keyword.
 But using new keyword makes java program highly coupled. In such scenario where a class is depend on another class
@@ -25,142 +27,145 @@ In this scenario Geeta object is created and injected in Ramu class automaticall
    
 - This whole process is known as Inversion of control (IOC Container).
 
-IOC Container : 
-----------------------------------------------------------------------------------------------------------------------------------------------------------
+## IOC Container : 
+
 When we created object, the control of object creation is taken from developer hands to spring, for
 every dependency spring create a object dynamically at runtime.
 
-Spring and JEE Layer :
----------------------------------------------------------------------------------------------------------------------------------------------------------- 
+## Spring and JEE Layer :
+
 	
-	UI Layer				Example :	ProductController <---|
-		|										|			  |	Inject			
-		V										V			  |
-	Business/Service Layer					ProuctService-----|
-		|										|		  <---|
-		V										V			  |	Inject
-	Data Access Layer						ProductDao--------|
-		|							------------|
-		V							|
-	Database <----------------------|
+	   UI Layer				Example :	ProductController <---|
+		|							|	      |	Inject			
+		V							V	      |
+	Business/Service Layer					    ProuctService <---|
+		|							|	      |
+		V							V	      |	Inject
+	Data Access Layer					    ProductDao <------|
+		|							 	      |
+		V						ProductRepo <---------|				      
+	    Database 
 
-Spring Modules :
-----------------------------------------------------------------------------------------------------------------------------------------------------------
-
+## Spring Modules :
 	 				
-_____________________________________________________________
-|-> Data Access/Integration:|->	Web :						|
-|	JDBC		ORM			|	Web			Servlet			|
-|	JMS			OXM			|	Portlet		WebSocket		|
-|-----------------------------------------------------------|
-|	AOP		Aspect			Instrumentation		Messaging	|
-|-----------------------------------------------------------|
-|					Test									|
-|-----------------------------------------------------------|
-|->	Spring Core :											|
-|	Core		Beans			Context		spEL			|
-|___________________________________________________________|
+	_____________________________________________________________
+	|-> Data Access/Integration:	|->	Web :	            |
+	|	JDBC		ORM	|	Web	 Servlet    |
+	|	JMS		OXM	|	Portlet	 WebSocket  |
+	|-----------------------------------------------------------|
+	|	AOP	Aspect 	 Instrumentation   Messaging	    |
+	|-----------------------------------------------------------|
+	|			Test	          		    |
+	|-----------------------------------------------------------|
+	|->	Spring Core :					    |
+	|	Core	 Beans	  Context	SpEL	  	    |
+	|___________________________________________________________|
 				
 
-Spring IOC Container : 
-----------------------------------------------------------------------------------------------------------------------------------------------------------
+## Spring IOC Container : 
+
 It does 3 work : 
-		-> Create the object.
+
+  		-> Create the object.
 		-> Hold them in a memory.
 		-> Inject then in another object as required. 
 
-Spring container : 
-					-> Interface ApplicationContext ( Extends Bean Factory )
-								--------------------
-										|
-				--------------------------------------------------
- 				|						|						 |
-  				|						|						 |
-				V						|						 V
-AnnotationConfigApplicationContext		|		ClassPathXMLApplicationContext
-										|
-										V
-						FileSystemXMLApplicationContext
+## Spring container : 
+					
+     					-> Interface ApplicationContext ( Extends Bean Factory )
+							--------------------
+								|
+				------------------------------------------------------------------
+ 				|					|			 |
+  				|					|			 |
+				V					|			 V
+	AnnotationConfigApplicationContext				|		ClassPathXMLApplicationContext
+									|
+									V
+							FileSystemXMLApplicationContext
 
 
-Ways of Dependency Injection :
--------------------------------------------------------------------------------------------------------------------------------------------------------
+## Ways of Dependency Injection :
 	
 	1- using setter injection
 	2- using constructor injection
 
 Setter Injection :
 
-class Student 						class Address
-{									{
-	id,name,address						street,city,state,country <--|
-	^	^	  ^							^		^     ^				 |
-	|	| 	  |-----------|				|		|	  |-------|		 |
-	|	------------|     |				|       -----------|  |      |
-	setId(id){}		|	  |				setStreet(street)  |  |		 |
-	setName(name){}-|	  |				setCity(city)------|  |		 |
-	setAddress(address){}-|				setState(state)-------|		 |
-}										setCountry(country)----------|
-									}
-			- Ioc container create object of address using setter methods during configuration.
+	class Student 						class Address
+	{							{
+		id,name,address						street,city,state,country 
+		setId(id){}						setStreet(street)  
+		setName(name){}						setCity(city)
+		setAddress(address){}					setState(state)
+	}								setCountry(country)
+								}
+			
+   - Ioc container create object of address using setter methods during configuration.
 									
 									
 Contructor Injection :
 
-class Student 						class Address
-{									{
-	id,name,address						street,city,state,country <--|
-	^	^		^							^	^	  ^				 |
-	|	|		|--------|					|	|	  |-------|		 |
-	|	|				 |					|	|-------|	  |		 |
-	|	|--------|		 |					|-----|		|	  |		 |
-	|--------|	 |		 |						  |		|	  |		 |
-	Student(id,name,address)			Address(street,city,state,country)
-	{									{
+	class Student 						class Address
+	{							{
+		id,name,address						street,city,state,country 
+		Student(id,name,address)				Address(street,city,state,country)
+		{							{
 	
-	}									}
-}									}
+		}							}
+	}							}
 
-			- Ioc container create object of address using constructor methods during configuration.
+			
+   - Ioc container create object of address using constructor methods during configuration.
 
 
-Configuration File :
---------------------------------------------------------------------------------------------------------------------------------------------------------
+## Configuration File :
+
 - Spring contain configuration file i.e; XML file.
+
 - The class which is provided to IOC Container is known as Beans.
+
 - Configuration file where we declare beans and its dependency.
 
-	<beans>
-		<bean>...</bean>
-		<bean>...</bean>
-	</beans>
+		<beans>
+			<bean>...</bean>
+			<bean>...</bean>
+		</beans>
 
-Data Types (Dependencies) :
----------------------------------------------------------------------------------------------------------------------------------------------------------
+## Data Types (Dependencies) :
+
 
 1- Primitive Data Types :
+
 	byte,short,char,int,float,double,long,boolean
 
 2- Collection Type :
+
 	list,set,map and properties
 
 3- Reference Type :
+
 	Other class object
 	Ex : previously we inject object of class Address in class Student.
 	
 	
 Steps :	
----------------------------------------------------------------------------------------------------------------------------------------------------------
+
 -Create a Maven Project
+
 - Add dependency inside pom.xml file :
-		1- Spring core : stable version
+
+  		1- Spring core : stable version
 		2- Spring context : same version as spring core
+
 - Creating bean : Java pojo
+
 - Creating configuration file -> config.xml
+
 - Main class : which can pull the object		
 
-Insertion Of Primitive Type :
----------------------------------------------------------------------------------------------------------------------------------------------------------
+## Insertion Of Primitive Type :
+
 
 Note : Inside config.xml file add this name-space :
 
@@ -173,7 +178,6 @@ Note : Inside config.xml file add this name-space :
  http://www.springframework.org/schema/beans/spring-beans.xsd
  http://www.springframework.org/schema/context
  http://www.springframework.org/schema/context/spring-context.xsd">
-
 </beans>
 
 - Inside Beans tag we create a bean :
@@ -193,13 +197,14 @@ Note : Inside config.xml file add this name-space :
 </bean>
 
 - If we want to use value as a attribute then we have a specific way to do so :
-	<property name="studentId" value="102" />
+
+ 		<property name="studentId" value="102" />
 
 - If we want to set value using p-schema then we have a specific way to do so :
-	<bean class="com.spring.Student" name="student3" p:studentId="103" p:studentName="Shiv" p:studentAddress="Nagpur" />
 
-Insertion Of Collection Type : 
----------------------------------------------------------------------------------------------------------------------------------------------------------
+		<bean class="com.spring.Student" name="student3" p:studentId="103" p:studentName="Shiv" p:studentAddress="Nagpur" />
+
+## Insertion Of Collection Type : 
 
 List : 
 		
@@ -251,12 +256,13 @@ Properties :
 				
 
 Example : let say in the bean class with name as Employee having this fields :
-			private String name;
+			
+   			private String name;
 			private List<String> phones;
 			private Set<String> addresses;
 			private Map<String, String> courses;
 	
-	Write a code inside a config.xml file : 
+Write a code inside a config.xml file : 
 					
 	<bean class="path of bean class" name="give any name for this class" >
 	<property name="name" value="Shivam" />
@@ -282,13 +288,13 @@ Example : let say in the bean class with name as Employee having this fields :
 		<entry key="SQL" value="1 Months" />
 	</map>
 	</property>
-</bean>
+	</bean>
 
 
-Injection Of Reference Type :
-------------------------------------------------------------------------------------------------------------------------------------------------
-	A --> Depends on B
-	^				 |
+## Injection Of Reference Type :
+
+ 	A --> Depends on B
+	^		 |
 	|----------------|
 		Reference
 	
@@ -299,10 +305,12 @@ Injection Of Reference Type :
 	</bean>	
 
 Example : Let say we have two class i.e; A and B.
-	Class A have field : 
+	
+ 	Class A have field : 
 				private int x ;
 				private B obj;
-	Class B have field :
+	
+ 	Class B have field :
 				private int y ;
 				
  Write a code inside config.xml file : 
@@ -320,8 +328,8 @@ Example : Let say we have two class i.e; A and B.
 			<property name="obj" ref="bref"></property> --> Another way to declare a ref ...
 	</bean>							
 
-Constructor Injection : 
-----------------------------------------------------------------------------------------------------------------------------------------------
+## Constructor Injection : 
+
 Spring supports creating objects using parameterized.
 
 	<constructor-args>
@@ -335,14 +343,15 @@ Spring supports creating objects using parameterized.
 	As a attribute :
 	<constructor-args value="" />
 
-	To avoid ambuguity we need to add parameter as type .
-	For ex : <constructor-args value="" type="int/String/float etc" />
+To avoid ambuguity we need to add parameter as type .
 	
-	Bydefault everytime bean searches for string argument constructor but if it is not present then it follows top to bottom search.	
+ For ex : <constructor-args value="" type="int/String/float etc" />
 	
-	In the given below code if we remove string arg constructor then double arg constructor will call,
-	because it comes first during searching but if string arg constructor is present inside the code ,
-	then that constructor is call always irrespective to the sequence.
+Bydefault everytime bean searches for string argument constructor but if it is not present then it follows top to bottom search.	
+	
+In the given below code if we remove string arg constructor then double arg constructor will call,
+because it comes first during searching but if string arg constructor is present inside the code ,
+then that constructor is call always irrespective to the sequence.
 	
 	public Addition(double a, double b) {
 		super();
@@ -366,8 +375,8 @@ Spring supports creating objects using parameterized.
 	To avoid this ambiguity we use Type parameter during constructor-args.
 
 
-Life Cycle Methods :
------------------------------------------------------------------------------------------------------------------------------------
+## Life Cycle Methods :
+
 
 Spring provide two important methods to every bean :
 
@@ -376,19 +385,19 @@ Spring provide two important methods to every bean :
 	
 	Note : we can change the name of these method but signature must be same.
 
-				----------------------------------------------------------------------
-	Spring		|			Start													  |
-				|													  				  |
-	Bean		|				Init()												  |
-				|																	  |
-Configuration	|				Then we read and use the bean						  |
-	XML			|																	  |
-				|				Destroy()											  |
-				|																	  |
-				|			End														  |
-				|																	  |
-				|																	  |
-				|																	  |
+				----------------------------------------------------------------------|
+	Spring			|			Start					      |							  
+				|								      |					  				  
+	Bean			|				Init()				      |								  
+				|								      |								  
+	Configuration		|				Then we read and use the bean	      |				  
+	XML			|								      |								  
+				|				Destroy()			      |							  
+				|								      |								  
+				|			End					      |								  
+				|								      |								  
+				|								      |								  
+				|								      |								  
 				|_____________________________________________________________________|
 
 
@@ -400,8 +409,8 @@ Configure Technique :
 
 
 
-Implementing Lifecycle Method Of Spring Bean Using XML :
--------------------------------------------------------------------------------------------------------------------------------------
+## Implementing Lifecycle Method Of Spring Bean Using XML :
+
 
 Inside config file :
 
@@ -426,12 +435,14 @@ In the bean class :
 			AbstractApplicationContext --> Method : context.registerShutdownHook()
 
 
-Implementing Lifecycle Method Of Spring Bean Using Interfaces :
--------------------------------------------------------------------------------------------------------------------------------------
+## Implementing Lifecycle Method Of Spring Bean Using Interfaces :
+
+
 Interface :
 
-	1- Initializing Bean --> for init
-	2- Disposable Bean --> for destroy
+1- Initializing Bean --> for init
+
+2- Disposable Bean --> for destroy
 
 
 	Inside Bean class Implement this two methods by implementing class : 
@@ -448,8 +459,9 @@ Interface :
 	}
 
 
-Implementing Lifecycle Method Of Spring Bean Using Annotation :
--------------------------------------------------------------------------------------------------------------------------------------
+## Implementing Lifecycle Method Of Spring Bean Using Annotation :
+
+
 Annotation :
 
 	--> @PostConstruct : Init Works
@@ -458,11 +470,11 @@ Annotation :
 First add a dependency inside pom.xml file for postconstruct and predestroy as it is depreciated after java 9 so we need dependency 
 to use both annotation :
 
-<dependency>
-    <groupId>javax.annotation</groupId>
-    <artifactId>javax.annotation-api</artifactId>
-    <version>1.3.2</version>
-</dependency>
+	<dependency>
+	    <groupId>javax.annotation</groupId>
+	    <artifactId>javax.annotation-api</artifactId>
+	    <version>1.3.2</version>
+	</dependency>
 
 Create a bean and create two methods inside that bean :
 	
@@ -480,32 +492,36 @@ Create a bean and create two methods inside that bean :
 Still the output will not desplay on console because we need to enable the annotation .
 To do so we need to go to config.xml and write this :
 
- <context-annotation-config />
+	 <context-annotation-config />
 
 
-Autowiring in Spring :
----------------------------------------------------------------------------------------------------------------------------------------
+## Autowiring in Spring :
+
 
 - Feature of spring framework in which spring container inject the dependencies automatically.
+
 - Autowiring cant be used to inject primitive and string values. It works with reference only.
 
 
-		A class --> B class				Manually :					Automatically :
-		   ^			|				<ref bean="" />					|
-		   |			|												V
-		   |			|											Spring container
+		A class --> B class				Manually :				Automatically :
+		   ^		|				<ref bean="" />					|
+		   |		|					|					V
+		   |		|					V				Spring container
 		   |------------|				Programmer	
 				Obj
 
 	Autowiring :
+
 				1- Using XML : no , byName , byType , constructor , autoDetect--> It is depreciated since spring 3.
 				2- Using Annotations : 	@Autowired						
 
 	Advantages :
+
 				1- Automatic
 				2- Less Code
 
-	Disadvantage : 
+	Disadvantage :
+
 				1- No control of programmer
 				2- It cant be used for primitive and string value
 
@@ -513,17 +529,22 @@ Autowiring in Spring :
 Example : 
 
 
-<bean class="com.springcore.autowired.Address" name="address">
-	<property name="street" value="Marine Lines" />
-	<property name="city" value="Mumbai" />
-</bean>
+	<bean class="com.springcore.autowired.Address" name="address">
+		<property name="street" value="Marine Lines" />
+		<property name="city" value="Mumbai" />
+	</bean>
 
 byName :
-<bean class="com.springcore.autowired.Employee" name="employee" autowire="byName" />
+	
+ 	<bean class="com.springcore.autowired.Employee" name="employee" autowire="byName" />
+
 byType :
-<bean class="com.springcore.autowired.Employee" name="employee" autowire="byType" />	
+
+	<bean class="com.springcore.autowired.Employee" name="employee" autowire="byType" />	
+
 Constructor :
-<bean class="com.springcore.autowired.Employee" name="employee" autowire="constructor" />	
+
+	<bean class="com.springcore.autowired.Employee" name="employee" autowire="constructor" />	
 
 Note : If two bean having same type then it throws an exception.
 
@@ -531,24 +552,30 @@ Note : If two bean having same type then it throws an exception.
 Using Annotations :
 
 Inside bean class just add annotation : @Autowired
-		-> @Autowired is add above field object name ( private Address address ) or above getter method or above constructor.
+		
+	 @Autowired is add above field object name ( private Address address ) or above getter method or above constructor.
+
 And inside config file : <context:annotations-config />
 
 If more than one bean is there then it throws an exception . So to avoid that we need to use @Qualifier annotation :
-	@Qualifier("address1")
+	
+ 				@Qualifier("address1")
 					|-----> Bean name.
+
 Qualifier annotation is applied just below the Autowired annotation.					
 
 
-Standalone Collections : 
---------------------------------------------------------------------------------------------------------------------------------------------
+## Standalone Collections : 
+
 1- Create a pojo class having fields of collection type :
-	private List<String> friends ;
+	
+ 	private List<String> friends ;
 	private Map<String , Integer> feestructure ;
 	private Properties properties ;
 
 2- Inside config file first add util schema inside xmins :
-	<?xml version="1.0" encoding="UTF-8"?>
+	
+ 	<?xml version="1.0" encoding="UTF-8"?>
 	<beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
@@ -563,7 +590,8 @@ Standalone Collections :
     ">
 		
 3- Now to create standalone collection we need to write code like this :
-	<!--  Standalone List -->
+	
+ 	<!--  Standalone List -->
 	<util:list list-class="java.util.LinkedList" id="mybestfriends">
 		<value>Priyanka</value>
 		<value>Shiv</value>
@@ -600,43 +628,47 @@ Standalone Collections :
 	</bean>
 	
 
-Stereotype :
---------------------------------------------------------------------------------------------------------------------------------------------------
+## Stereotype :
+
+
 We use stereotype to eliminate the bean configuration and instead of that we use @Component annotation
 to configure bean class.
 
 In the config file we need to add one tag :
-	<context:component-scan base-package="com.springcore.stereotype" />
-													|------> package name ...
+
+ 	<context:component-scan base-package="com.springcore.stereotype" />
+							|------> package name ...
 													
 Inside the bean class :
 
 	//@Component("obj") --> for change the object reference from student to obj ...
-	@Component
-public class Student {
-	@Value("Shivam Barekar")
-	private String studentName ;
-	@Value("Kuchana Complex")
-	private String city ;								
-}
+	
+ 	@Component
+	public class Student {
+		@Value("Shivam Barekar")
+		private String studentName ;
+		@Value("Kuchana Complex")
+		private String city ;								
+	}
 
 Inside Test class we need to add the object name as camel case in the location which is given below :
-		Student student = (Student) con.getBean("student");
-													|-------------> This is object of class Student which follows camel case.
+		
+  		Student student = (Student) con.getBean("student");
+							|-------------> This is object of class Student which follows camel case.
 															
 How to use collection with this concept ? 
 
-//@Component("obj") --> for change the object reference from student to obj ...
-@Component
-//@Scope("prototype") --> using this annotation we get prototype so by every object we get difference hash-code ...
-public class Student {
-	@Value("Shivam Barekar")
-	private String studentName ;
-	@Value("Kuchana Complex")
-	private String city ;
-	@Value("#{temp}")
-	private List<String> address ;
-}
+	//@Component("obj") --> for change the object reference from student to obj ...
+	@Component
+	//@Scope("prototype") --> using this annotation we get prototype so by every object we get difference hash-code ...
+	public class Student {
+		@Value("Shivam Barekar")
+		private String studentName ;
+		@Value("Kuchana Complex")
+		private String city ;
+		@Value("#{temp}")
+		private List<String> address ;
+	}
 
 Create a standalone list inside config file .
 
@@ -646,9 +678,9 @@ Create a standalone list inside config file .
   		<value>Chandrapur</value>
   	</util:list>
 
-Bean Score : 
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	1- Singleton : only single object is created by spring container.
+## Bean Score : 
+
+ 	1- Singleton : only single object is created by spring container.
 	2- Prototype : Every time new object is created whenever it is called.
 	3- Request
 	4- Session
@@ -692,11 +724,12 @@ Configure Bean Scope :
 
 
 
-Spring Expression Language :
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	- Supports parsing and executing expression with the help of @Value annotations.
+## Spring Expression Language :
+
+ 
+ 	- Supports parsing and executing expression with the help of @Value annotations.
 											@Value("#{2+3}")
-		Expression							@Value("#{T(java.lang.Math).sqrt(625)")
+		  Expression							@Value("#{T(java.lang.Math).sqrt(625)")
 			|								@Value("#{Expression}")
 			|
 			V
